@@ -73,10 +73,10 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 		pieces = new JLabel( new ImageIcon("WhiteKnight.png") );
 		panels = (JPanel)chessBoard.getComponent(6);
 	    panels.add(pieces);
-		pieces = new JLabel( new ImageIcon("WhiteBishup.png") );
+		pieces = new JLabel( new ImageIcon("WhiteBishop.png") );
 		panels = (JPanel)chessBoard.getComponent(2);
 	    panels.add(pieces);
-		pieces = new JLabel( new ImageIcon("WhiteBishup.png") );
+		pieces = new JLabel( new ImageIcon("WhiteBishop.png") );
 		panels = (JPanel)chessBoard.getComponent(5);
 	    panels.add(pieces);
 		pieces = new JLabel( new ImageIcon("WhiteKing.png") );
@@ -102,10 +102,10 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 		pieces = new JLabel( new ImageIcon("BlackKnight.png") );
 		panels = (JPanel)chessBoard.getComponent(62);
 	    panels.add(pieces);
-		pieces = new JLabel( new ImageIcon("BlackBishup.png") );
+		pieces = new JLabel( new ImageIcon("BlackBishop.png") );
 		panels = (JPanel)chessBoard.getComponent(58);
 	    panels.add(pieces);
-		pieces = new JLabel( new ImageIcon("BlackBishup.png") );
+		pieces = new JLabel( new ImageIcon("BlackBishop.png") );
 		panels = (JPanel)chessBoard.getComponent(61);
 	    panels.add(pieces);
 		pieces = new JLabel( new ImageIcon("BlackKing.png") );
@@ -252,7 +252,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 			demonstration purposes the Pawn here turns into a Queen.
 		*/
                 
-                if(pieceName.contains("Bishup")){
+                if(pieceName.contains("Bishop")){
                     Boolean inTheWay = false;
                     int distance = Math.abs(startX-landingX);
                     if(((landingX < 0) || (landingX > 7)) || ((landingY <0) || (landingY > 7))) {
