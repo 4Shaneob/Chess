@@ -206,6 +206,10 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 		String pieceName = tmp.substring(0, (tmp.length()-4));
 		Boolean validMove = false;
 
+                
+                 
+                 ////////////////////////////Rook/////////////////////////////
+                
                 if(pieceName.contains("Rook")){
                         int newY = e.getY()/75;
                         int newX = e.getX()/75;
@@ -216,15 +220,14 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                         }
                         else{
 
-                        //The Rook can only move in either a horizontal or vertical direction.
 
                         if(((Math.abs(startX-newX)!=0)&&(Math.abs(startY-newY) == 0))|| ((Math.abs(startX-newX)==0)&&(Math.abs(newY-startY)!=0)))
                         {
                             if(Math.abs(startX-newX)!=0){
-                                //we have movement along the x axis
+                                //movement on the x axis
                                 int xMovement = Math.abs(startX-newX);
                                 if(startX-newX > 0){
-                                  //movement in the left direction....
+                                  //moving  left
                                   for(int i=0;i < xMovement;i++){
                                     if(piecePresent(initialX-(i*75), e.getY())){
                                       intheway = true;
@@ -249,7 +252,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                             }
 
                             else{
-                            //we have movement along the y axis
+                            //movement on the y axis
                               int yMovement = Math.abs(startY-newY);
                               if(startY-newY > 0){
                                 //movement in the left direction....
@@ -478,7 +481,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 }            
                 
                
-////////////////////////////////////// KING ////////////////////////////////////////////                
+////////////////////////////////////// ?KING? ////////////////////////////////////////////                
                 
                 
 		/*
@@ -530,28 +533,6 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 			If a Pawn makes it to the top of the other side, the Pawn can turn into any other piece, for 
 			demonstration purposes the Pawn here turns into a Queen.
 		*/
-               /*
-                if(pieceName.contains("Rook")){
-                    Boolean intheway = false;
-                    if(((landingX < 0) || (landingX > 7)) || ((landingY < 0) || (landingY > 7))){
-                        validMove = false;
-                    }
-                    else{
-                    if(((Math.abs(startX-landingX) !=0)&&(Math.abs(startY-landingY) == 0)) || ((Math.abs(startX-landingX) == 0)&&(Math.abs(landingY - startY) !=0)))
-                    {
-                        if(Math.abs(startX-landingY)!=0){
-                            int xMovement = Math.abs(startX-landingX);
-                            if(startX-landingX >0){
-                                for(int i=0; i < xMovement; i++)
-                            } 
-               
-                            /*
-                            // left here
-                            
-                        }
-                    }
-                }
-                */
                 
                 /////////////////////// BISHOP ////////////////////////////////////////////
                 if(pieceName.contains("Bishop")){
@@ -660,8 +641,8 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                                 }   
                         }
                 }
-                
-                else if(pieceName.equals("WhitePawn")){
+                //////////////////////////////// WHITE PAWN //////////////////////////////////////////
+                else if(pieceName.equals("WhitePawn")){  //pieceName.contains("Pawn")doesn't work
 			if(startY == 1)
 			{
 				if((startX == (e.getX()/75))&&((((e.getY()/75)-startY)==1)||((e.getY()/75)-startY)==2))
@@ -729,9 +710,11 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 		}
                 
                 //////////////////////// Black PAWN ////////////////////////////////////////
+                // ..2..3.. //////////// 2 - managed to stop black pawns taking other black pieces
+
                 else if(pieceName.equals("BlackPawn")){
                     // The pawn can move either two or one squares
-                    if((startY == 6)&&(startX == landingX) && (((startY-landingY) ==1)||(startY - landingY)==2)){
+                    if((startY == 6)&&(startX == landingX) && (((startY-landingY) ==1)||(startY-landingY)==2)){
                         // if there's a piece in the way
                         if(!piecePresent(e.getX(), e.getY())){
                             validMove = true;
@@ -768,55 +751,8 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                             validMove = false;
                         }
                     }
-                }
-                            
-                            /* landingX)&&(((startY-landingY)== 1)|| (startY-landingY)== 2)){
-                        if(!piecePresent(e.getX(), e.getY())){
-                            validMove = true;                            
-                        }
-                        else{
-                            validMove = false;
-                        }
-                    }
-                    else{
-                        //validMove = false;
-                        if ((!piecePresent(e.getX(), (e.getY())))) {
-                            validMove = true;
-                        } else {
-                            validMove = false;
-                        }
-                        
-                    }
-                }
-                else{ // the piece is not in the starting postion..
-                    if((startX == landingX) && (((startY-landingY) == 1))){
-                        if(!piecePresent(e.getX(), e.getY())){
-                            validMove = true;                            
-                        }
-                        else{
-                            validMove = false;
-                        }                                            
-                    }
-                    else{
-                        validMove = false;
-                        }   
-                    }
-                
-                //else 
-                            if((Math.abs(startX-landingX)== 1)&&(((startY-landingY)==1))){
-                    
-                            if(piecePresent(e.getX(),e.getY())){
-                                
-                            validMove = true;
-                            if(landingY==0){
-                                progression = true;
-                            }
-                        }
-                    }
-                } */
-                
-		if(!validMove){		
-			int location=0;
+                    if(!validMove){		
+			int location = 0;
 			if(startY ==0){
 				location = startX;
 			}
@@ -867,7 +803,58 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 	        	}
 	    		chessPiece.setVisible(true);									
 			}
-		}
+                    }   
+                }
+                
+                
+                /////////////////////////////////////////////////////////////////////////////////////////
+                            //original code
+                            /* landingX)&&(((startY-landingY)== 1)|| (startY-landingY)== 2)){
+                        if(!piecePresent(e.getX(), e.getY())){
+                            validMove = true;                            
+                        }
+                        else{
+                            validMove = false;
+                        }
+                    }
+                    else{
+                        //validMove = false;
+                        if ((!piecePresent(e.getX(), (e.getY())))) {
+                            validMove = true;
+                        } else {
+                            validMove = false;
+                        }
+                        
+                    }
+                }
+                else{ // the piece is not in the starting postion..
+                    if((startX == landingX) && (((startY-landingY) == 1))){
+                        if(!piecePresent(e.getX(), e.getY())){
+                            validMove = true;                            
+                        }
+                        else{
+                            validMove = false;
+                        }                                            
+                    }
+                    else{
+                        validMove = false;
+                        }   
+                    }
+                
+                //else 
+                            if((Math.abs(startX-landingX)== 1)&&(((startY-landingY)==1))){
+                    
+                            if(piecePresent(e.getX(),e.getY())){
+                                
+                            validMove = true;
+                            if(landingY==0){
+                                progression = true;
+                            }
+                        }
+                    }
+                } */
+                
+		
     }
  
     public void mouseClicked(MouseEvent e) {
