@@ -207,6 +207,111 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 		String pieceName = tmp.substring(0, (tmp.length()-4));
 		Boolean validMove = false;
 
+                
+    //////////////////////////////// ROOK //////////////////////////////////////
+        if(pieceName.contains("Rook")){
+            int newY = e.getY()/75;
+            int newX = e.getX()/75;
+            boolean intheway=false;
+
+            if(((newX < 0)|| (newX > 7))||((newY < 0)||(newY > 7))){
+                validMove = false;
+            }
+            else{
+                //The Rook can only move in either a horizontal or vertical direction.
+                if(((Math.abs(startX-newX)!=0)&&(Math.abs(startY-newY) == 0))|| ((Math.abs(startX-newX)==0)&&(Math.abs(newY-startY)!=0)))
+                {
+                    if(Math.abs(startX-newX)!=0){
+                    //we have movement along the x axis
+                    int xMovement = Math.abs(startX-newX);
+                    if(startX-newX > 0){
+                        //movement in the left direction....
+                        for(int i=0;i < xMovement;i++){
+                            if(piecePresent(initialX-(i*75), e.getY())){
+                                intheway = true;
+                                break;
+                                }
+                            else{
+                                intheway = false;
+                               }
+                            }
+                    }
+                    else{
+                        for(int i=0;i < xMovement;i++){
+                            if(piecePresent(initialX+(i*75), e.getY())){
+                            intheway = true;
+                            break;
+                            }
+                            else{
+                                intheway = false;
+                                }
+                            }
+                        }   
+                }
+                    else{
+                        //we have movement along the y axis
+                        int yMovement = Math.abs(startY-newY);
+                        if(startY-newY > 0){
+                            //movement in the left direction....
+                            for(int i=0;i < yMovement;i++){
+                              if(piecePresent(e.getX(),initialY-(i*75))){
+                                intheway = true;
+                                break;
+                              }
+                              else{
+                                intheway = false;
+                              }
+                            }
+                          }
+                          else{
+                            for(int i=0;i < yMovement;i++){
+                              if(piecePresent(e.getX(),initialY+(i*75))){
+                                intheway = true;
+                                break;
+                              }
+                              else{
+                                intheway = false;
+                              }
+                            }
+                          }
+                    }
+                    if(intheway){
+                          validMove = false;
+                        }
+
+                        else{
+                          if(piecePresent(e.getX(), (e.getY()))){
+                            if(pieceName.contains("White")){
+                              if(checkWhiteOponent(e.getX(), e.getY())){
+                                validMove = true;
+                              }
+                              else{
+                                validMove = false;
+                              }
+                            }
+                            else{
+                              if(checkBlackOponent(e.getX(), e.getY())){
+                                validMove = true;
+                              }
+                              else{
+                                 validMove = false;
+                              }
+                            }
+                          }
+                          else{
+                            validMove = true;
+                          }
+                        }
+                        }
+                        else{
+                          validMove = false;
+                    }
+                    }
+    }
+                
+                
+                
+                
 		/*
   This code helps us to understand what is happening when a user starts
   to move pieces around the board. We are using the standard output to show
@@ -252,7 +357,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 			If a Pawn makes it to the top of the other side, the Pawn can turn into any other piece, for 
 			demonstration purposes the Pawn here turns into a Queen.
 		*/
-                
+        ///////////////////// BISHOP ////////////////////////////
                 if(pieceName.contains("Bishop")){
                     Boolean inTheWay = false;
                     int distance = Math.abs(startX-landingX);
@@ -322,6 +427,8 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                         }   
                     }
                 }
+                
+    /////////////////////////// KNIGHT ////////////////////////////
                 if(pieceName.contains("Knight")){
                     validMove = true;
                     if((((landingX <0)||(landingX >7)))||((landingY < 0)||(landingY >7))){            
@@ -358,6 +465,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                         }
                 }
                 
+    ///////////////////////////// BLACKPAWN //////////////////////////            
                 
                 else if(pieceName.equals("BlackPawn")){
                     // The pawn can move either two or one squares
@@ -397,6 +505,9 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                         }
                     }
                 }
+                
+                
+    /////////////////////////// WHITE PAWN /////////////////////////////////////            
                 else if(pieceName.equals("WhitePawn")){
 			if(startY == 1)
 			{
