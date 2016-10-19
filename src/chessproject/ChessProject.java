@@ -208,6 +208,8 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 		Boolean validMove = false;
 
                 
+                
+              
     //////////////////////////////// ROOK //////////////////////////////////////
         if(pieceName.contains("Rook")){
             int newY = e.getY()/75;
@@ -308,11 +310,178 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                     }
                     }
     }
-                
-                
-                
-                
+        
+    /////////////////////////// QUEEN //////////////////////////////////////////
+    
+    else if(pieceName.contains("Queen")){
+	int newY = e.getY()/75;
+	int newX = e.getX()/75;			
+	boolean inTheWay = false;		
+	int distance = Math.abs(startX-newX);
+		
+	
+	if(((newX < 0) || (newX > 7))||((newY < 0)||(newY > 7))){
+		validMove = false;			
+	}
+	else{
 		/*
+			The Queen can either move like the Rook or a Bishop...You already have this code working! 
+		*/
+		validMove = true;				
+		
+		//Check if the move is a diagonal move
+		
+		if(Math.abs(startX-newX)==Math.abs(startY-newY))
+		{
+			// If there are any pieces along the diagonal in the way the move cannot be made.
+			if((startX-newX < 0)&&(startY-newY < 0)){
+				for(int i=0; i < distance;i++){
+					if(piecePresent((initialX+(i*75)), (initialY+(i*75)))){
+						inTheWay = true;
+					}
+				}						
+			}
+			else if((startX-newX < 0)&&(startY-newY > 0)){
+				for(int i=0; i < distance;i++){
+					if(piecePresent((initialX+(i*75)), (initialY-(i*75)))){						
+						inTheWay = true;
+					}
+				}						
+			}
+			else if((startX-newX > 0)&&(startY-newY > 0)){
+				for(int i=0; i < distance;i++){
+					if(piecePresent((initialX-(i*75)), (initialY-(i*75)))){
+						inTheWay = true;
+					}
+				}						
+			}
+			else if((startX-newX > 0)&&(startY-newY < 0)){
+				for(int i=0; i < distance;i++){
+					if(piecePresent((initialX-(i*75)), (initialY+(i*75)))){
+						inTheWay = true;
+					}
+				}						
+			}										
+			if(inTheWay){
+				validMove = false;
+			}
+			else{
+				if(piecePresent(e.getX(), (e.getY()))){
+					if(pieceName.contains("White")){
+						if(checkWhiteOponent(e.getX(), e.getY())){
+							validMove = true;
+						}
+						else{
+							validMove = false;
+						}
+					}
+					else{
+						if(checkBlackOponent(e.getX(), e.getY())){
+							validMove = true;
+						}
+						else{
+							validMove = false;
+						}
+					}								
+				}
+				else{
+					validMove = true;
+				}
+                        }										
+		}
+		else if(((Math.abs(startX-newX)!=0)&&(Math.abs(startY-newY) == 0))|| ((Math.abs(startX-newX)==0)&&(Math.abs(newY-startY)!=0)))
+		{
+			if(Math.abs(startX-newX)!=0){
+				//we have movement along the x axis
+				int xMovement = Math.abs(startX-newX);
+				if(startX-newX > 0){
+					//movement in the left direction....
+					for(int i=0;i < xMovement;i++){
+						if(piecePresent(initialX-(i*75), e.getY())){
+							inTheWay = true;
+							break;
+						}
+						else{
+							inTheWay = false;
+						}
+					}							
+				}
+				else{
+					for(int i=0;i < xMovement;i++){								
+						if(piecePresent(initialX+(i*75), e.getY())){
+							inTheWay = true;
+							break;
+						}
+						else{
+							inTheWay = false;
+						}
+					}
+				}
+			}
+			else{
+				//we have movement along the y axis
+				int yMovement = Math.abs(startY-newY);
+					if(startY-newY > 0){
+						//movement in the left direction....
+						for(int i=0;i < yMovement;i++){									
+							if(piecePresent(e.getX(),initialY-(i*75))){
+								inTheWay = true;
+								break;
+							}
+							else{
+								inTheWay = false;
+							}
+						}							
+					}
+					else{
+						for(int i=0;i < yMovement;i++){
+							if(piecePresent(e.getX(),initialY+(i*75))){
+								inTheWay = true;
+								break;
+							}
+							else{
+								inTheWay = false;
+							}
+						}
+					}
+			}
+			if(inTheWay){
+				validMove = false;
+			}
+			else{
+				if(piecePresent(e.getX(), (e.getY()))){
+					if(pieceName.contains("White")){
+						if(checkWhiteOponent(e.getX(), e.getY())){
+							validMove = true;
+						}
+						else{
+							validMove = false;
+						}
+					}
+					else{
+						if(checkBlackOponent(e.getX(), e.getY())){
+							validMove = true;
+						}
+						else{
+							validMove = false;
+						}
+					}												
+				}
+				else{
+					validMove = true;
+				}
+			}
+		}				
+		else{ // the move that is being tried is not a diagonal move...
+			validMove = false;
+		}				
+	}
+} 
+        
+    //////////////////////////// KING //////////////////////////////////////////
+    
+        
+        /*
   This code helps us to understand what is happening when a user starts
   to move pieces around the board. We are using the standard output to show
   - the name of the piece that is being moved
