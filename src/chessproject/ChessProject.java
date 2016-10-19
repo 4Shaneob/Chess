@@ -465,7 +465,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 						else{
 							validMove = false;
 						}
-					}												
+					}							
 				}
 				else{
 					validMove = true;
