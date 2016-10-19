@@ -642,7 +642,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                         }
                 }
                 //////////////////////////////// WHITE PAWN //////////////////////////////////////////
-                else if(pieceName.equals("WhitePawn")){  //pieceName.contains("Pawn")doesn't work
+                if(pieceName.equals("WhitePawn")){  //pieceName.contains("Pawn")doesn't work
 			if(startY == 1)
 			{
 				if((startX == (e.getX()/75))&&((((e.getY()/75)-startY)==1)||((e.getY()/75)-startY)==2))
@@ -711,7 +711,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
                 
                 //////////////////////// Black PAWN ////////////////////////////////////////
                 // ..2..3.. //////////// 2 - managed to stop black pawns taking other black pieces
-
+/*
                 else if(pieceName.equals("BlackPawn")){
                     // The pawn can move either two or one squares
                     if((startY == 6)&&(startX == landingX) && (((startY-landingY) ==1)||(startY-landingY)==2)){
@@ -805,7 +805,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 			}
                     }   
                 }
-                
+                */
                 
                 /////////////////////////////////////////////////////////////////////////////////////////
                             //original code
