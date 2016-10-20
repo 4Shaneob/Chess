@@ -178,10 +178,10 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
         xAdjustment = parentLocation.x - e.getX();
         yAdjustment = parentLocation.y - e.getY();
         chessPiece = (JLabel)c;
-		initialX = e.getX();
-		initialY = e.getY();
-		startX = (e.getX()/75);
-		startY = (e.getY()/75);
+        initialX = e.getX();
+        initialY = e.getY();
+        startX = (e.getX()/75);
+        startY = (e.getY()/75);
         chessPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
         chessPiece.setSize(chessPiece.getWidth(), chessPiece.getHeight());
         layeredPane.add(chessPiece, JLayeredPane.DRAG_LAYER);
@@ -484,7 +484,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 	int newX = e.getX()/75;			
 	boolean inTheWay = false;		
 	int distance = Math.abs(startX+1); // changed from Math.abs(startX-newX);
-        int distance2 = Math.abs(startX+2);
+       int distance2 = Math.abs(startX+2);
 		
 	
 	if(((newX < 0) || (newX > 7))||((newY < 0)||(newY > 7))){
