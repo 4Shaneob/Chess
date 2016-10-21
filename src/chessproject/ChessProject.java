@@ -137,37 +137,82 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 		This is a method to check if a piece is a Black piece.
 	*/
         private Boolean checkBlackOponent(int newX, int newY){
-            Boolean opponent;
+            Boolean opponent; //says if it's an opponent piece or not
             Component c1 = chessBoard.findComponentAt(newX, newY);
             JLabel awaitingPiece = (JLabel)c1;
             String tmp1 = awaitingPiece.getIcon().toString();
-            if (((tmp1.contains("White")))){
+            if (((tmp1.contains("White"))&& (!tmp1.contains("King")))){
+                opponent = true;
+            }
+            else if(tmp1.contains("WhiteKing")) {
+                winning("Black"); //win check
                 opponent = true;
             }
             else{
                 opponent = false;
+                System.out.println("Attempting to take your own Piece");
             }
             return opponent;
         }
         
 	private Boolean checkWhiteOponent(int newX, int newY){
-		Boolean oponent;
+		Boolean opponent;
 		Component c1 = chessBoard.findComponentAt(newX, newY);
 		JLabel awaitingPiece = (JLabel)c1;
-		String tmp1 = awaitingPiece.getIcon().toString();			
-		if(((tmp1.contains("Black")))){
-			oponent = true;
-		}
-		else{
-			oponent = false; 
-		}		
-		return oponent;
-	}	
- 
+		String tmp1 = awaitingPiece.getIcon().toString();                
+                if (((tmp1.contains("Black"))&& (!tmp1.contains("King")))){
+                opponent = true;
+            }
+            else if(tmp1.contains("BlackKing")) {
+                winning("White"); //win check
+                opponent = true;
+            }
+            else{
+                opponent = false;
+                System.out.println("Attempting to take your own Piece");
+            }
+            return opponent;
+	}
+        
+        
+        //Evoked when opponents king is capture.
+        private void winning(String player) {
+            JOptionPane.showMessageDialog(null, " The Winner is "+ player);
+        }
 	/*
 		This method is called when we press the Mouse. So we need to find out what piece we have 
 		selected. We may also not have selected a piece!
 	*/
+        
+        private Boolean nearKing(int newX, int newY) {
+		if((piecePresent(newX, newY + 75) && pName(newX, newY + 75).contains("King") || (piecePresent(newX, newY - 75) && pName(newX, newY - 75).contains("King")))){
+			return  true;
+		}
+		else if((piecePresent(newX + 75, newY) && pName(newX + 75, newY).contains("King") || (piecePresent(newX - 75, newY) && pName(newX - 75, newY).contains("King")))){
+			return true;
+		}
+		else if((piecePresent(newX - 75, newY + 75) && pName(newX - 75, newY + 75).contains("King") || (piecePresent(newX + 75, newY - 75) && pName(newX + 75, newY - 75).contains("King")))){
+			return  true;
+		}
+		else if((piecePresent(newX - 75, newY - 75) && pName(newX - 75, newY - 75).contains("King") || (piecePresent(newX + 75, newY + 75) && pName(newX + 75, newY + 75).contains("King")))){
+			return  true;
+		}
+		return false;
+	}
+        private String pName(int newX, int newY){
+		Component c = chessBoard.findComponentAt(newX, newY);
+		if(c instanceof JLabel){
+			JLabel awaitingPiece = (JLabel) c;
+			String tmp1 = awaitingPiece.getIcon().toString();
+			return tmp1;
+		}
+		else{
+			return "";
+		}
+	}
+    
+        
+        
     public void mousePressed(MouseEvent e){
         chessPiece = null;
         Component c =  chessBoard.findComponentAt(e.getX(), e.getY());
@@ -196,35 +241,6 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 		This method is used when the Mouse is released...we need to make sure the move was valid before 
 		putting the piece back on the board.
 	*/
-    
-    private Boolean nearKing(int newX, int newY) {
-		if((piecePresent(newX, newY + 75) && pName(newX, newY + 75).contains("King") || (piecePresent(newX, newY - 75) && pName(newX, newY - 75).contains("King")))){
-			return  true;
-		}
-		else if((piecePresent(newX + 75, newY) && pName(newX + 75, newY).contains("King") || (piecePresent(newX - 75, newY) && pName(newX - 75, newY).contains("King")))){
-			return true;
-		}
-		else if((piecePresent(newX - 75, newY + 75) && pName(newX - 75, newY + 75).contains("King") || (piecePresent(newX + 75, newY - 75) && pName(newX + 75, newY - 75).contains("King")))){
-			return  true;
-		}
-		else if((piecePresent(newX - 75, newY - 75) && pName(newX - 75, newY - 75).contains("King") || (piecePresent(newX + 75, newY + 75) && pName(newX + 75, newY + 75).contains("King")))){
-			return  true;
-		}
-		return false;
-	}
-	
-	private String pName(int newX, int newY){
-		Component c = chessBoard.findComponentAt(newX, newY);
-		if(c instanceof JLabel){
-			JLabel awaitingPiece = (JLabel) c;
-			String tmp1 = awaitingPiece.getIcon().toString();
-			return tmp1;
-		}
-		else{
-			return "";
-		}
-	}
-    
     public void mouseReleased(MouseEvent e) {
         if(chessPiece == null) return;
  
@@ -494,7 +510,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 						else{
 							validMove = false;
 						}
-					}												
+					}							
 				}
 				else{
 					validMove = true;
@@ -540,170 +556,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 				}
 			}
 		}
-        
-        
-        /* else if(pieceName.contains("King")){
-	int newY = e.getY()/75;
-	int newX = e.getX()/75;			
-	boolean inTheWay = false;		
-	int distance = Math.abs(startX+1); // changed from Math.abs(startX-newX);
-       int distance2 = Math.abs(startX+2);
-		
-	
-	if(((newX < 0) || (newX > 7))||((newY < 0)||(newY > 7))){
-		validMove = false;			
-	}
-	else{
-		validMove = true;				
-		
-		//Check if the move is a diagonal move
-		if(Math.abs(startX-newX)==Math.abs(startY-newY))
-		{
-			// If there are any pieces along the diagonal in the way the move cannot be made.
-			if((startX-newX < 0)&&(startY-newY < 0)){
-				for(int i=0; i < distance2;i++){
-					if(piecePresent((initialX+(i*75)), (initialY+(i*75)))){
-						inTheWay = true;
-					}
-				}						
-			}
-			else if((startX-newX < 0)&&(startY-newY > 0)){
-				for(int i=0; i < distance2;i++){
-					if(piecePresent((initialX+(i*75)), (initialY-(i*75)))){						
-						inTheWay = true;
-					}
-				}						
-			}
-			else if((startX-newX > 0)&&(startY-newY > 0)){
-				for(int i=0; i < distance2;i++){
-					if(piecePresent((initialX-(i*75)), (initialY-(i*75)))){
-						inTheWay = true;
-					}
-				}						
-			}
-			else if((startX-newX > 0)&&(startY-newY < 0)){
-				for(int i=0; i < distance2;i++){
-					if(piecePresent((initialX-(i*75)), (initialY+(i*75)))){
-						inTheWay = true;
-					}
-				}						
-			}										
-			if(inTheWay){
-				validMove = false;
-			}
-			else{
-				if(piecePresent(e.getX(), (e.getY()))){
-					if(pieceName.contains("White")){
-						if(checkWhiteOponent(e.getX(), e.getY())){
-							validMove = true;
-						}
-						else{
-							validMove = false;
-						}
-					}
-					else{
-						if(checkBlackOponent(e.getX(), e.getY())){
-							validMove = true;
-						}
-						else{
-							validMove = false;
-						}
-					}								
-				}
-				else{
-					validMove = true;
-				}
-                        }										
-		}
-		else if(((Math.abs(startX-newX)!=0)&&(Math.abs(startY-newY) == 0))|| ((Math.abs(startX-newX)==0)&&(Math.abs(newY-startY)!=0)))
-		{
-			if(Math.abs(startX-newX)!=0){
-				//we have movement along the x axis
-				int xMovement = Math.abs(startX-newX);
-				if(startX-newX > 0){
-					//movement in the left direction....
-					for(int i=0;i < xMovement;i++){
-						if(piecePresent(initialX-(i*75), e.getY())){
-							inTheWay = true;
-							break;
-						}
-						else{
-							inTheWay = false;
-						}
-					}							
-				}
-				else{
-					for(int i=0;i < xMovement;i++){
-						if(piecePresent(initialX+(i*75), e.getY())){
-							inTheWay = true;
-							break;
-						}
-						else{
-							inTheWay = false;
-						}
-					}
-				}
-			}
-			else{
-				//we have movement along the y axis
-				int yMovement = Math.abs(startY-newY);
-					if(startY-newY > 0){
-						//movement in the left direction....
-						for(int i=0;i < yMovement;i++){
-							if(piecePresent(e.getX(),initialY-(i*75))){
-								inTheWay = true;
-								break;
-							}
-							else{
-								inTheWay = false;
-							}
-						}							
-					}
-					else{
-						for(int i=0;i < yMovement;i++){
-							if(piecePresent(e.getX(),initialY+(i*75))){
-								inTheWay = true;
-								break;
-							}
-							else{
-								inTheWay = false;
-							}
-						}
-					}
-			}
-			if(inTheWay){
-				validMove = false;
-			}
-			else{
-				if(piecePresent(e.getX(), (e.getY()))){
-					if(pieceName.contains("White")){
-						if(checkWhiteOponent(e.getX(), e.getY())){
-							validMove = true;
-						}
-						else{
-							validMove = false;
-						}
-					}
-					else{
-						if(checkBlackOponent(e.getX(), e.getY())){
-							validMove = true;
-						}
-						else{
-							validMove = false;
-						}
-					}												
-				}
-				else{
-					validMove = true;
-				}
-			}
-		}				
-		else{ // the move that is being tried is not a diagonal move...
-			validMove = false;
-		}				
-	}
-}
-        */
+    
         
         /*
   This code helps us to understand what is happening when a user starts
@@ -724,7 +577,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
     ...
     ...
     Boolean validMove = false;
-
+If king moves xmovement 01, ymovement 01
 */
 		int landingX = (e.getX()/75);
 		int landingY  = (e.getY()/75);
@@ -903,7 +756,8 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
     /////////////////////////// WHITE PAWN /////////////////////////////////////            
                 else if(pieceName.equals("WhitePawn")){
 			if(startY == 1)
-			{
+			{           ///landingY
+                            // if((startX == (e.getX()/75))&&((((e.getY()/75)-startY)==1)||((e.getY()/75)-startY)==2))
 				if((startX == (e.getX()/75))&&((((e.getY()/75)-startY)==1)||((e.getY()/75)-startY)==2))
 				{
 					if((((e.getY()/75)-startY)==2)){
