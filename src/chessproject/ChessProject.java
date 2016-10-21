@@ -660,7 +660,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
     ...
     ...
     Boolean validMove = false;
-
+If king moves xmovement 01, ymovement 01
 */
 		int landingX = (e.getX()/75);
 		int landingY  = (e.getY()/75);
@@ -839,7 +839,8 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
     /////////////////////////// WHITE PAWN /////////////////////////////////////            
                 else if(pieceName.equals("WhitePawn")){
 			if(startY == 1)
-			{
+			{           ///landingY
+                            // if((startX == (e.getX()/75))&&((((e.getY()/75)-startY)==1)||((e.getY()/75)-startY)==2))
 				if((startX == (e.getX()/75))&&((((e.getY()/75)-startY)==1)||((e.getY()/75)-startY)==2))
 				{
 					if((((e.getY()/75)-startY)==2)){
