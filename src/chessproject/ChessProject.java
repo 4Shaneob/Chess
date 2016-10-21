@@ -137,33 +137,59 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 		This is a method to check if a piece is a Black piece.
 	*/
         private Boolean checkBlackOponent(int newX, int newY){
-            Boolean opponent;
+            Boolean opponent; //says if it's an opponent piece or not
             Component c1 = chessBoard.findComponentAt(newX, newY);
             JLabel awaitingPiece = (JLabel)c1;
             String tmp1 = awaitingPiece.getIcon().toString();
-            if (((tmp1.contains("White")))){
+            if (((tmp1.contains("White"))&& (!tmp1.contains("King")))){
+                opponent = true;
+            }
+            else if(tmp1.contains("WhiteKing")) {
+                winning("Black"); //win check
                 opponent = true;
             }
             else{
                 opponent = false;
+                System.out.println("Attempting to take your own Piece");
             }
             return opponent;
         }
         
 	private Boolean checkWhiteOponent(int newX, int newY){
-		Boolean oponent;
+		Boolean opponent;
 		Component c1 = chessBoard.findComponentAt(newX, newY);
 		JLabel awaitingPiece = (JLabel)c1;
-		String tmp1 = awaitingPiece.getIcon().toString();			
-		if(((tmp1.contains("Black")))){
-			oponent = true;
+		String tmp1 = awaitingPiece.getIcon().toString();                
+                if (((tmp1.contains("Black"))&& (!tmp1.contains("King")))){
+                opponent = true;
+            }
+            else if(tmp1.contains("BlackKing")) {
+                winning("White"); //win check
+                opponent = true;
+            }
+            else{
+                opponent = false;
+                System.out.println("Attempting to take your own Piece");
+            }
+            return opponent;
+		/*if(((tmp1.contains("Black")))){
+			opponent = true;
 		}
+                else if(tmp1.contains("BlackKing")) {
+                winning("White"); //win check
+                opponent = true;
+            }
+            else{
 		else{
-			oponent = false; 
+			opponent = false; 
 		}		
-		return oponent;
+		return opponent; */
 	}	
- 
+        
+        //Evoked when opponents king is capture.
+        private void winning(String player) {
+            JOptionPane.showMessageDialog(null, " The Winner is "+ player);
+        }
 	/*
 		This method is called when we press the Mouse. So we need to find out what piece we have 
 		selected. We may also not have selected a piece!
