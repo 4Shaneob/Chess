@@ -196,6 +196,35 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 		This method is used when the Mouse is released...we need to make sure the move was valid before 
 		putting the piece back on the board.
 	*/
+    
+    private Boolean nearKing(int newX, int newY) {
+		if((piecePresent(newX, newY + 75) && pName(newX, newY + 75).contains("King") || (piecePresent(newX, newY - 75) && pName(newX, newY - 75).contains("King")))){
+			return  true;
+		}
+		else if((piecePresent(newX + 75, newY) && pName(newX + 75, newY).contains("King") || (piecePresent(newX - 75, newY) && pName(newX - 75, newY).contains("King")))){
+			return true;
+		}
+		else if((piecePresent(newX - 75, newY + 75) && pName(newX - 75, newY + 75).contains("King") || (piecePresent(newX + 75, newY - 75) && pName(newX + 75, newY - 75).contains("King")))){
+			return  true;
+		}
+		else if((piecePresent(newX - 75, newY - 75) && pName(newX - 75, newY - 75).contains("King") || (piecePresent(newX + 75, newY + 75) && pName(newX + 75, newY + 75).contains("King")))){
+			return  true;
+		}
+		return false;
+	}
+	
+	private String pName(int newX, int newY){
+		Component c = chessBoard.findComponentAt(newX, newY);
+		if(c instanceof JLabel){
+			JLabel awaitingPiece = (JLabel) c;
+			String tmp1 = awaitingPiece.getIcon().toString();
+			return tmp1;
+		}
+		else{
+			return "";
+		}
+	}
+    
     public void mouseReleased(MouseEvent e) {
         if(chessPiece == null) return;
  
@@ -479,7 +508,41 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 } 
         
     //////////////////////////// KING //////////////////////////////////////////
-    else if(pieceName.contains("King")){
+        if (pieceName.contains("King")) {
+            int newY = e.getY()/75;
+            int newX = e.getX()/75;			
+            boolean inTheWay = false;
+            int xMovement = Math.abs(startX-newX);
+            int yMovement = Math.abs(startY-newY);
+                    
+			if ((xMovement == 1 && yMovement == 0) || (xMovement == 0 && yMovement == 1) || (xMovement == 1 && yMovement == 1)) {
+				if(!(nearKing(e.getX(), e.getY()))){
+
+				if (piecePresent(e.getX(), e.getY())) {
+					if (pieceName.contains("Black")) {
+						if (checkBlackOponent(e.getX(), e.getY())) {
+							validMove = true;
+
+
+						}
+					}
+					if (pieceName.contains("White")) {
+						if (checkWhiteOponent(e.getX(), e.getY())) {
+							validMove = true;
+
+						}
+					}
+				}
+				else if (!piecePresent(e.getX(), e.getY())) {
+					validMove = true;
+
+				}
+				}
+			}
+		}
+        
+        
+        /* else if(pieceName.contains("King")){
 	int newY = e.getY()/75;
 	int newX = e.getX()/75;			
 	boolean inTheWay = false;		
@@ -640,6 +703,7 @@ public class ChessProject extends JFrame implements MouseListener, MouseMotionLi
 		}				
 	}
 }
+        */
         
         /*
   This code helps us to understand what is happening when a user starts
